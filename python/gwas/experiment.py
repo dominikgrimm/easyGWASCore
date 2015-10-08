@@ -185,7 +185,7 @@ class GWAExperiment():
         sample_indices = (sp.reshape(self.__sample_ids,(self.__sample_ids.shape[0],1))==sample_ids_file).nonzero()
         self.__sample_ids = self.__sample_ids[sample_indices[0]]
         self.__y = self.__y[sample_indices[0]]
-        if self.__cov != None:
+        if not self.__cov is None:
             self.__cov = self.__cov[sample_indices[0]]
         raw_data = raw_data[sample_indices[1],:]
         self.__raw = raw_data
@@ -429,7 +429,7 @@ class GWAExperiment():
         result_file.create_dataset('bh_thresholds',data=bh_thresholds,chunks=True,compression="gzip", compression_opts=9)
         
         if self.__algorithm=="FaSTLMM" or self.__algorithm=="EMMAX":
-            variance_null_model = self.__ass.computeVarianceExplainedNullModel(1000)
+            variance_null_model = self.__ass.computeVarianceExplainedNullModel(10)
             result_file.create_dataset('variance_null_model',data=variance_null_model.mean())
             result_file.create_dataset('variance_null_model_sem',data=variance_null_model.std()/sp.sqrt(variance_null_model.shape[0]))
             result_file.create_dataset('estimated_heritability',data=self.__ass.getHeritabilityEstimate())
