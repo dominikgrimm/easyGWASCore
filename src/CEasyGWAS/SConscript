@@ -1,0 +1,8 @@
+Import('env')
+env_copy = env.Clone()
+#env_copy.Append(LIBS=['cephes'],LIBPATH='#/build/' + platform + '/lib/cephes/')
+source = Glob('*/*.cc')
+lib = env_copy.StaticLibrary('easycore',source)
+#cephes_source = Glob('#/External/Cephes/*.c')
+#lib = env_copy.StaticLibrary('easycore',[source,cephes_source])
+Return('lib')

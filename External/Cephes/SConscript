@@ -1,0 +1,27 @@
+Import('env')
+env_copy = env.Clone()
+#source = Glob('*.c')
+source = ['double/acosh.c','double/airy.c','double/asin.c','double/asinh.c',
+          'double/atan.c','double/atanh.c','double/bdtr.c','double/beta.c',
+          'double/btdtr.c','double/chbevl.c','double/chdtr.c','double/clog.c',
+          'double/cmplx.c','double/const.c','double/cosh.c','double/dawsn.c',
+          'double/drand.c','double/ellie.c','double/ellik.c','double/ellpe.c',
+          'double/ei.c','double/ellpj.c','double/ellpk.c','double/exp.c','double/exp10.c',
+          'double/exp2.c','double/expn.c','double/expx2.c','double/fabs.c',
+          'double/fac.c','double/fdtr.c','double/fresnl.c','double/gamma.c',
+          'double/gdtr.c','double/hyp2f1.c','double/hyperg.c','double/i0.c',
+          'double/i1.c','double/igami.c','double/incbet.c','double/incbi.c',
+          'double/igam.c','double/isnan.c','double/iv.c','double/j0.c','double/j1.c',
+          'double/jn.c','double/jv.c','double/k0.c','double/k1.c','double/kn.c',
+          'double/kolmogorov.c','double/log.c','double/log2.c','double/log10.c',
+          'double/lrand.c','double/nbdtr.c','double/ndtr.c','double/ndtri.c',
+          'double/pdtr.c','double/planck.c','double/polevl.c','double/polmisc.c',
+          'double/polylog.c','double/polyn.c','double/pow.c','double/powi.c',
+          'double/psi.c','double/rgamma.c','double/round.c','double/shichi.c',
+          'double/sici.c','double/sin.c','double/sindg.c','double/sinh.c',
+          'double/spence.c','double/stdtr.c','double/struve.c','double/tan.c',
+          'double/tandg.c','double/tanh.c','double/unity.c','double/yn.c',
+          'double/zeta.c','double/zetac.c','double/sqrt.c','double/floor.c',
+          'double/setprec.c','double/mtherr.c']
+lib = env_copy.StaticLibrary('cephes',source)
+Return('lib')

@@ -1,0 +1,5 @@
+Import('env')
+env_copy = env.Clone()
+source = Glob('*.cpp')
+lib = env_copy.StaticLibrary('maxflow',source)
+Return('lib')

@@ -1,0 +1,39 @@
+import sys
+
+Import('env','easycore','src_path','platform','maxflow')
+tmp_env = env.Clone()
+
+#Get python include and lib path
+import distutils.sysconfig as dist 
+python_lib = dist.get_python_lib()
+python_include = dist.get_python_inc()
+
+tmp_env.Append(LIBPATH=[python_lib,'#/build/' + platform + '/lib/CEasyGWAS/','#/build/' + platform + '/lib/maxflow/',sys.prefix + '/libs/'])
+#tmp_env.Append(LIBS=['cephes'],LIBPATH='#/build/' + platform + '/lib/cephes/')
+#Get numpy include path
+import numpy as np
+numpy_include = np.get_include()
+
+#append path variables 
+tmp_env.Append(CPPPATH = [python_include,numpy_include,src_path,'#/src/interfaces/python/CEasyGWAS/'])
+
+#set swig compiler parameters
+tmp_env.Append(SWIGFLAGS=['-python','-c++'])
+tmp_env.Append(SWIGPATH=['src_path','#/src/interfaces/python/CEasyGWAS/','#/src'])
+
+#windows is missing
+if(platform=='linux2'):
+	tmp_env.Append(LINKFLAGS = ['-Wl,-rpath=\'$$ORIGIN\''])
+else:
+	tmp_env.Append(LINKFLAGS = ['-Wl,-rpath,@loader_path/.','-undefined','dynamic_lookup','-flat_namespace'])
+
+source = ['CEasyGWAS.i']
+
+swig_lib = tmp_env.LoadableModule('_CEasyGWAS.so',source)
+
+#install swig interfaces and library into bin directory
+Command(target="#bin/" + platform + "/interfaces/python/_CEasyGWAS.so",source=swig_lib,action=Copy("$TARGET","$SOURCE"))
+Command(target="#bin/" + platform + "/interfaces/python/CEasyGWAS.py",source="CEasyGWAS.py",action=Copy("$TARGET","$SOURCE"))
+Command(target="#bin/" + platform + "/interfaces/python/CEasyGWAS_wrap.cc",source="CEasyGWAS_wrap.cc",action=Copy("$TARGET","$SOURCE"))
+
+Return('swig_lib')

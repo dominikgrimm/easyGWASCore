@@ -1,0 +1,4 @@
+Import('env','easycore')
+env_copy = env.Clone()
+program = env_copy.Program('main.cpp')
+Return('program')
