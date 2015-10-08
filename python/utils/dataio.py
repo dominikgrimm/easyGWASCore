@@ -139,7 +139,7 @@ def addCovariates2HDF5(arguments):
 
         else:
             if os.path.isfile(arguments.addcovariates):
-                covariate_list.append(arguments.addcovariats)
+                covariate_list.append(arguments.addcovariates)
             else:
                 print "Argument --addcovariates " + arguments.addcovariates + " does not exist or is not a file\n"
                 quit()
