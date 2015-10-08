@@ -84,8 +84,12 @@ def main():
     
 
     resfile_parser = data_parser.add_argument_group("File Input Flags")
-    resfile_parser.add_argument("--hdata",action="store",dest="hdata",help="Filename of HDF5 input file (needed for options {--encode, --vcf, --hdf5toplink})")
+    resfile_parser.add_argument("--hdata",action="store",dest="hdata",help="Filename of HDF5 input file (needed for options {--encode, --vcf, --hdf5toplink, --addcovariates})")
     resfile_parser.add_argument("--hfile",action="store",dest="hfile",help="HDF5 result input file or directory with several input files (needed for options {--csv,--ld})")
+    
+    add_parser = data_parser.add_argument_group("Add additional data to HDF5 file")
+    add_parser.add_argument("--adddata",action="store_true",default=False,help="Store additional data to HDF5 file")
+    add_parser.add_argument("--addcovariates",action="store",dest="addcovariates",help="Add additional covariates to HDF5 file (either a folder with files or a single file)")
     
     plink_parser = data_parser.add_argument_group("Convert HDF5 File into Plink files")
     plink_parser.add_argument("--hdf5toplink",action="store_true",default=False,help="Convert HDF5 file into PLINK files")
@@ -149,11 +153,11 @@ def main():
         enc = False
         if results.encode!=None:
             enc = True
-        arg_list = sp.array([results.plink2hdf5,results.vcf,results.gff2sql,enc,results.csv,results.agene,results.ld,results.hdf5toplink,results.hdf5toplink_split])
+        arg_list = sp.array([results.plink2hdf5,results.vcf,results.gff2sql,enc,results.csv,results.agene,results.ld,results.hdf5toplink,results.hdf5toplink_split,results.adddata])
         if sp.where(arg_list==True)[0].shape[0]>=2 or sp.where(arg_list==True)[0].shape[0]==0:
             data_parser.print_help()
             print "\n-------------------------------------------------------------"
-            print "Please select ONE of the following options: {--plink2hdf5, --hdf5toplink, --encode, --vcf, --gff2sql, --csv, --agene, --ld,--hdf5toplink_split}\n"
+            print "Please select ONE of the following options: {--plink2hdf5, --hdf5toplink, --encode, --vcf, --gff2sql, --csv, --agene, --ld,--hdf5toplink_split,--adddata}\n"
             quit()
 
         
@@ -270,6 +274,15 @@ def main():
                 print "Argument --ldout has to be set!\n"
                 quit()
             writeLDInfo(results)
+        elif results.adddata:
+            if results.hdata==None:
+                data_parser.print_help()
+                print "\n-------------------------------------------------------------"
+                print "Argument --hdata has to be set!\n"
+                quit()
+            if results.addcovariates!=None:
+                addCovariates2HDF()
+            quit()
 
     elif results.which=="plot":
         #CHECK Additional Paramters

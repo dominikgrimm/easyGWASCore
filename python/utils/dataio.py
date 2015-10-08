@@ -119,6 +119,81 @@ def read_CSV_file(fileName=None):
     return [pv,positions,chromosomes,hashs,unique_pv,name]
 
 '''
+Parse Covariate Data and add to HDF5 file
+'''
+def addCovariates2HDF5(arguments):
+    if not os.path.isfile(arguments.hdata):
+        print "Argument --hdata " + arguments.hdata + "does not exist or is not a file\n"
+        quit()
+    
+    covariate_list = []
+    if arguments.addcovariates!=None:
+        if os.path.isdir(arguments.addcovariates):
+            for fn in os.listdir(arguments.addcovariates):
+                filename = os.path.join(arguments.addcovariates,fn)
+                if os.path.isfile(filename):
+                    covariate_list.append(filename)
+                else:
+                    print "Argument --addcovariates " + filename + " is not a file\n"
+                    quit()
+
+        else:
+            if os.path.isfile(arguments.addcovariates):
+                covariate_list.append(arguments.addcovariats)
+            else:
+                print "Argument --addcovariates " + arguments.addcovariates + " does not exist or is not a file\n"
+                quit()
+
+    #open HDF5 file
+    hd5 = h5py.File(arguments.hdata)
+
+    #read covariates per file in folder and store data
+    
+    if "Covariates" in hd5.keys():
+        covariates = hd5["Covariates"]
+    else:
+        covariates = hd5.create_group("Covariates")
+    #find maximum covariate id in data file
+    counter = 0
+    for i in covariates.keys():
+        if int(i)>counter:
+            counter=int(i)
+    counter += 1
+    for filename in covariate_list:
+        f = open(filename,'r')
+        sample_ids = []
+        covariate_names = []
+        Y = []
+        delimiter = "\t"
+        for i,line in enumerate(f):
+            sv = line.strip().split(delimiter)
+            if len(sv)==1:
+                delimiter = " "
+                sv = line.strip().split(delimiter)
+
+            if i==0:
+                for j in xrange(2,len(sv)):
+                    covariate_names.append(sv[j].strip())
+                continue
+            sample_ids.append(sv[1].strip())
+            yline = []
+            for j in xrange(2,len(sv)):
+                yline.append(float(sv[j].strip()))
+            Y.append(yline)
+        f.close()
+        sample_ids = sp.array(sample_ids)
+        Y = sp.array(Y)
+        
+        for i,covariate in enumerate(covariate_names):
+            ph = covariates.create_group(str(counter))
+            ph.create_dataset("name",data=covariate)
+            ph.create_dataset("sample_ids",data=sample_ids,chunks=True,compression="gzip",compression_opts=9)
+            ph.create_dataset("y",data=Y[:,i],compression="gzip",compression_opts=9,chunks=True)
+            counter += 1
+    hd5.close()
+    
+
+'''
 Plink 2 HDF5 file
 '''
 def plink2HDF5(arguments):
