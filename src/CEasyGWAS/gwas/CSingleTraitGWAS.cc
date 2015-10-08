@@ -592,6 +592,7 @@ float64 EMMAX::computeVarianceExplainedNullModel(uint const& folds) {
 
     CCrossValidation cv(rand()%1000);
     cv.kFold(folds,__y.rows());
+    //cv.ShuffleSplit(__X.rows(),folds,0.1);
 
     VectorXd y_estimated = VectorXd::Zero(__y.rows());
     
@@ -902,8 +903,8 @@ VectorXd FaSTLMM::computeVarianceExplainedNullModel(uint const& folds) {
     }
 
     CCrossValidation cv(rand()%1000);
-    //cv.kFold(folds,__X.rows());
-    cv.ShuffleSplit(__X.rows(),folds,0.1);
+    cv.kFold(folds,__X.rows());
+    //cv.ShuffleSplit(__X.rows(),folds,0.1);
 
     VectorXd y_estimated = VectorXd::Zero(__y.rows());
     
