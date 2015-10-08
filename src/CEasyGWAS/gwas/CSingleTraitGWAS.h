@@ -231,7 +231,8 @@ namespace CSingleTraitGWAS {
 			void setREML(bool const&);
 			void setBrent(bool const&);
 
-            VectorXd computeVarianceExplainedNullModel(uint const&);
+            //VectorXd computeVarianceExplainedNullModel(uint const&);
+            float64 computeVarianceExplainedNullModel(uint const&);
 			float64 getHeritabilityEstimate();
 			float64 getGeneticVariance();
             float64 getNoiseVariance();

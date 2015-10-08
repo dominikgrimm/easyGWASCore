@@ -430,8 +430,9 @@ class GWAExperiment():
         
         if self.__algorithm=="FaSTLMM" or self.__algorithm=="EMMAX":
             variance_null_model = self.__ass.computeVarianceExplainedNullModel(10)
-            result_file.create_dataset('variance_null_model',data=variance_null_model.mean())
-            result_file.create_dataset('variance_null_model_sem',data=variance_null_model.std()/sp.sqrt(variance_null_model.shape[0]))
+            result_file.create_dataset('variance_null_model',data=variance_null_model)
+            #result_file.create_dataset('variance_null_model',data=variance_null_model.mean())
+            #result_file.create_dataset('variance_null_model_sem',data=variance_null_model.std()/sp.sqrt(variance_null_model.shape[0]))
             result_file.create_dataset('estimated_heritability',data=self.__ass.getHeritabilityEstimate())
             result_file.create_dataset('estimated_genetic_variance',data=self.__ass.getGeneticVariance())
             result_file.create_dataset('estimated_noise_variance',data=self.__ass.getNoiseVariance())

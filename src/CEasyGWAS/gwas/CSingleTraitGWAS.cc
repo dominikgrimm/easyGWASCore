@@ -893,7 +893,8 @@ float64 FaSTLMM::getNoiseVariance() {
     return exp(__null_model.getLogDelta())*sigma_g;
 }
 
-VectorXd FaSTLMM::computeVarianceExplainedNullModel(uint const& folds) {
+//VectorXd FaSTLMM::computeVarianceExplainedNullModel(uint const& folds) {
+float64 FaSTLMM::computeVarianceExplainedNullModel(uint const& folds) {
 	MatrixXd covariates = __covs;
     if (__covs_set) {
         covariates = MatrixXd(__y.rows(),1+__covs.cols());
@@ -921,6 +922,7 @@ VectorXd FaSTLMM::computeVarianceExplainedNullModel(uint const& folds) {
         K_train = sliceColsMatrix(K_train,tr_indices);
         MatrixXd K_test = sliceRowsMatrix(__K,te_indices);
         K_test = sliceColsMatrix(K_test,tr_indices);
+        
         CLinearMixedRegression null_model(false);
 	    null_model.setInterval(100);
 	    null_model.setLogDeltaMin(-5.0);
@@ -932,13 +934,13 @@ VectorXd FaSTLMM::computeVarianceExplainedNullModel(uint const& folds) {
         VectorXd y_tmp;
         null_model.predict(&y_tmp,cov_test,K_test);
         insertColumnVectorAtIndices(&y_estimated,y_tmp,te_indices);       
-        vtest(k) = 1.0 - CStats::varf(y_test.array() - y_tmp.array())/CStats::varf(y_test.array());
+        //vtest(k) = 1.0 - CStats::varf(y_test.array() - y_tmp.array())/CStats::varf(y_test.array());
         //vtest(k) = pow(CStats::pearson_corr(y_test,y_tmp),2);
     }
-    //float64 variance_explained = 1.0 - CStats::varf(__y.array() - y_estimated.array())/CStats::varf(__y);
+    float64 variance_explained = 1.0 - CStats::varf(__y.array() - y_estimated.array())/CStats::varf(__y);
     //return pow(CStats::pearson_corr(__y,y_estimated),2);
-    //return variance_explained;
-    return vtest;
+    return variance_explained;
+    //return vtest;
 }
 
 void FaSTLMM::test_associations() {
