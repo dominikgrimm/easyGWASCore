@@ -281,7 +281,7 @@ def main():
                 print "Argument --hdata has to be set!\n"
                 quit()
             if results.addcovariates!=None:
-                addCovariates2HDF()
+                addCovariates2HDF5()
             quit()
 
     elif results.which=="plot":
