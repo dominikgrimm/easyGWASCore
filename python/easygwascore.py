@@ -429,7 +429,7 @@ def main():
                     settings.snp_encoding = results.encoding
                     settings.phenotype_id = str(results.phenotype_id)
                     settings.phenotype_transformation = results.transform
-                    settings.covariate_transformation = results.transform_covariate
+                    settings.covariate_transformation = results.transform_covariates
                     settings.covariates = results.covariate_ids
                     settings.homozygous = results.homozygous
                     settings.principle_components = pc
@@ -448,7 +448,7 @@ def main():
                 settings.snp_encoding = results.encoding
                 settings.phenotype_id = str(results.phenotype_id)
                 settings.phenotype_transformation = results.transform
-                settings.covariate_transformation = results.transform_covariate
+                settings.covariate_transformation = results.transform_covariates
                 settings.covariates = results.covariate_ids
                 settings.homozygous = results.homozygous
                 settings.principle_components = results.principle_components
@@ -477,7 +477,7 @@ def main():
                         settings.snp_encoding = results.encoding
                         settings.phenotype_id = str(pid)
                         settings.phenotype_transformation = results.transform
-                        settings.covariate_transformation = results.transform_covariate
+                        settings.covariate_transformation = results.transform_covariates
                         settings.covariates = results.covariate_ids
                         settings.homozygous = results.homozygous
                         settings.principle_components = pc
@@ -494,7 +494,7 @@ def main():
                     settings.snp_encoding = results.encoding
                     settings.phenotype_id = str(pid)
                     settings.phenotype_transformation = results.transform
-                    settings.covariate_transformation = results.transform_covariate
+                    settings.covariate_transformation = results.transform_covariates
                     settings.covariates = results.covariate_ids
                     settings.homozygous = results.homozygous
                     settings.principle_components = results.principle_components
