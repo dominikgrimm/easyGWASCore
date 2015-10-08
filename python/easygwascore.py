@@ -6,7 +6,7 @@ import scipy as sp
 import multiprocessing
 from utils.dataio import read_HDF5_file,plink2HDF5,encodeData,convertHDF5_2_VCF,getEncodedData,createGFFDB
 from utils.dataio import readSIFT4GFile,convertHDF5_2_CSV,writeTopXGenes,writeLDInfo,convertHDF5_2_PLINK
-from utils.dataio import convertHDF5_2_PLINK_Split,readPathogenicityFile,read_CSV_file
+from utils.dataio import convertHDF5_2_PLINK_Split,readPathogenicityFile,read_CSV_file,addCovariates2HDF5
 from utils.plotting import ManhattanPlot,QQPlot,LDPlot
 from gwas.experiment import GWASettings
 from gwas.gwas import start_gwas
