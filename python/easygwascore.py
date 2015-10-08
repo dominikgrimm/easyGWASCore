@@ -59,6 +59,8 @@ def main():
     g_parser.add_argument("--transform",action="store",dest="transform",default=None,help="Transform Phenotype (default: No transformation)",choices=('sqrt','log10','boxcox','zeroMean','unitVariance'))
     g_parser.add_argument("--homozygous",action="store_true",dest="homozygous",help="Genotype is homozygous (default=False)",default=False)
     g_parser.add_argument("--phenotype_id",action="store",dest="phenotype_id",type=int,help="Specifiy certain phenotype in HDF5 file. If not specified loop over all phenotypes (default=all)",default=-1)
+    g_parser.add_argument("--covariate_ids",action="store",nargs='+',dest="covariate_ids",type=int,help="Select covariate from HDF5 file. If not specified loop over all covariates (default=all) [multiple ids can be specified]",default=-1)
+    g_parser.add_argument("--transform_covariates",action="store",dest="transform_covariates",default=None,help="Transform Covariates (default: No transformation)",choices=('sqrt','log10','boxcox','zeroMean','unitVariance','dummyVariable'))
     g_parser.add_argument("--algorithm",action="store",dest="algorithm",default="linear",help="Select Algorithm",choices=('linear','logit','FaSTLMM','EMMAX','ttest','fisher','WCrt','MWUrt','linearperm','logitperm','EMMAXperm'))
     g_parser.add_argument("--threads",action="store",dest="threads",type=int,help="If mutliple phenotypes in file parallelize computations (default=Available CPUs - 1)",default=multiprocessing.cpu_count()-1)
     g_parser.add_argument("--pcs",action="store",dest="principle_components",type=int,help="Number of Principle Components (default=0)",default=0)
@@ -412,6 +414,7 @@ def main():
             print "--out: " + results.out + " is not a directory!\n"
             quit()
         
+
         #if only one phenotype is selected
         if results.phenotype_id!=-1:
             if results.pc_iterative==True:
@@ -426,6 +429,8 @@ def main():
                     settings.snp_encoding = results.encoding
                     settings.phenotype_id = str(results.phenotype_id)
                     settings.phenotype_transformation = results.transform
+                    settings.covariate_transformation = results.transform_covariate
+                    settings.covariates = results.covariate_ids
                     settings.homozygous = results.homozygous
                     settings.principle_components = pc
                     settings.maf = results.maf
@@ -443,6 +448,8 @@ def main():
                 settings.snp_encoding = results.encoding
                 settings.phenotype_id = str(results.phenotype_id)
                 settings.phenotype_transformation = results.transform
+                settings.covariate_transformation = results.transform_covariate
+                settings.covariates = results.covariate_ids
                 settings.homozygous = results.homozygous
                 settings.principle_components = results.principle_components
                 settings.maf = results.maf
@@ -470,6 +477,8 @@ def main():
                         settings.snp_encoding = results.encoding
                         settings.phenotype_id = str(pid)
                         settings.phenotype_transformation = results.transform
+                        settings.covariate_transformation = results.transform_covariate
+                        settings.covariates = results.covariate_ids
                         settings.homozygous = results.homozygous
                         settings.principle_components = pc
                         settings.maf = results.maf
@@ -485,6 +494,8 @@ def main():
                     settings.snp_encoding = results.encoding
                     settings.phenotype_id = str(pid)
                     settings.phenotype_transformation = results.transform
+                    settings.covariate_transformation = results.transform_covariate
+                    settings.covariates = results.covariate_ids
                     settings.homozygous = results.homozygous
                     settings.principle_components = results.principle_components
                     settings.maf = results.maf

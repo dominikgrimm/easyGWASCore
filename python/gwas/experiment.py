@@ -33,6 +33,7 @@ class GWASettings():
         self.snp_encoding = "additive" #other options: recessive, dominant, codominant
         self.phenotype_id = None
         self.phenotype_transformation = "boxcox"
+        self.covariate_transformation = "none"
         self.covariates = []
         self.homozygous = True
         self.maf = 0.1
@@ -157,13 +158,13 @@ class GWAExperiment():
         covariates = settings.covariates
         for covariate in covariates:
             try:
-                cov = self.__dbfile['Covariates/' + str(covariate.covaraite_id) + '/y'][:]
-                sample_ids = self.__dbfile['Covariates/' + str(covariate.covariate_id) + '/sample_ids'][:]
+                cov = self.__dbfile['Covariates/' + str(covariate) + '/y'][:]
+                sample_ids = self.__dbfile['Covariates/' + str(covariate) + '/sample_ids'][:]
             except:
                 print "[ERROR] Loading Covariate went wrong"
                 quit()
             #transform covariates
-            cov = self.transformData(cov,covariate.covariate_transformation)
+            cov = self.transformData(cov,settings.covariate_transformation)
             #match samples
             sample_indices = (sp.reshape(sample_ids,(sample_ids.shape[0],1))==self.__sample_ids).nonzero()
             sample_ids = sample_ids[sample_indices[0]]
