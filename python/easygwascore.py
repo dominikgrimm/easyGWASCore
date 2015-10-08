@@ -7,6 +7,7 @@ import multiprocessing
 from utils.dataio import read_HDF5_file,plink2HDF5,encodeData,convertHDF5_2_VCF,getEncodedData,createGFFDB
 from utils.dataio import readSIFT4GFile,convertHDF5_2_CSV,writeTopXGenes,writeLDInfo,convertHDF5_2_PLINK
 from utils.dataio import convertHDF5_2_PLINK_Split,readPathogenicityFile,read_CSV_file,addCovariates2HDF5
+from utils.dataio import addPhenotypes2HDF5
 from utils.plotting import ManhattanPlot,QQPlot,LDPlot
 from gwas.experiment import GWASettings
 from gwas.gwas import start_gwas
@@ -89,6 +90,7 @@ def main():
     
     add_parser = data_parser.add_argument_group("Add additional data to HDF5 file")
     add_parser.add_argument("--adddata",action="store_true",default=False,help="Store additional data to HDF5 file")
+    add_parser.add_argument("--addphenotypes",action="store",dest="addphenotypes",help="Add additional phenotypes to HDF5 file (either a folder with files or a single file)")
     add_parser.add_argument("--addcovariates",action="store",dest="addcovariates",help="Add additional covariates to HDF5 file (either a folder with files or a single file)")
     
     plink_parser = data_parser.add_argument_group("Convert HDF5 File into Plink files")
@@ -280,6 +282,13 @@ def main():
                 print "\n-------------------------------------------------------------"
                 print "Argument --hdata has to be set!\n"
                 quit()
+            if results.addphenotypes==None and results.addcovariates==None:
+                data_parser.print_help()
+                print "\n-------------------------------------------------------------"
+                print "Either --addphenotypes or --addcovariates has to be set!\n"
+                quit()
+            if results.addphenotypes!=None:
+                addPhenotypes2HDF5(results)
             if results.addcovariates!=None:
                 addCovariates2HDF5(results)
             quit()

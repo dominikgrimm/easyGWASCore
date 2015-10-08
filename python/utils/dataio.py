@@ -119,6 +119,80 @@ def read_CSV_file(fileName=None):
     return [pv,positions,chromosomes,hashs,unique_pv,name]
 
 '''
+Parse Phenotype Data and add to HDF5 file
+'''
+def addPhenotypes2HDF5(arguments):
+    if not os.path.isfile(arguments.hdata):
+        print "Argument --hdata " + arguments.hdata + "does not exist or is not a file\n"
+        quit()
+    
+    phenotype_list = []
+    if arguments.addphenotypes!=None:
+        if os.path.isdir(arguments.addphenotypes):
+            for fn in os.listdir(arguments.addphenotypes):
+                filename = os.path.join(arguments.addphenotypes,fn)
+                if os.path.isfile(filename):
+                    phenotype_list.append(filename)
+                else:
+                    print "Argument --addphenotypes " + filename + " is not a file\n"
+                    quit()
+
+        else:
+            if os.path.isfile(arguments.addphenotypes):
+                phenotype_list.append(arguments.addphenotypes)
+            else:
+                print "Argument --addphenotypes " + arguments.addphenotypes + " does not exist or is not a file\n"
+                quit()
+
+    #open HDF5 file
+    hd5 = h5py.File(arguments.hdata)
+
+    #read phenotypes per file in folder and store data
+    
+    if "Phenotypes" in hd5.keys():
+        phenotypes = hd5["Phenotypes"]
+    else:
+        phenotypes = hd5.create_group("Phenotypes")
+    #find maximum phenotype id in data file
+    counter = 0
+    for i in phenotypes.keys():
+        if int(i)>counter:
+            counter=int(i)
+    counter += 1
+    for filename in phenotype_list:
+        f = open(filename,'r')
+        sample_ids = []
+        phenotype_names = []
+        Y = []
+        delimiter = "\t"
+        for i,line in enumerate(f):
+            sv = line.strip().split(delimiter)
+            if len(sv)==1:
+                delimiter = " "
+                sv = line.strip().split(delimiter)
+
+            if i==0:
+                for j in xrange(2,len(sv)):
+                    phenotype_names.append(sv[j].strip())
+                continue
+            sample_ids.append(sv[1].strip())
+            yline = []
+            for j in xrange(2,len(sv)):
+                yline.append(float(sv[j].strip()))
+            Y.append(yline)
+        f.close()
+        sample_ids = sp.array(sample_ids)
+        Y = sp.array(Y)
+        
+        for i,phenotype in enumerate(phenotype_names):
+            ph = phenotypes.create_group(str(counter))
+            ph.create_dataset("name",data=phenotype)
+            ph.create_dataset("sample_ids",data=sample_ids,chunks=True,compression="gzip",compression_opts=9)
+            ph.create_dataset("y",data=Y[:,i],compression="gzip",compression_opts=9,chunks=True)
+            counter += 1
+    hd5.close()
+
+'''
 Parse Covariate Data and add to HDF5 file
 '''
 def addCovariates2HDF5(arguments):
