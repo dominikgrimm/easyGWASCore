@@ -222,17 +222,17 @@ class GWAExperiment():
             if settings.unique_snps_only:
                 tmp,uindex = sp.unique(self.__snp_hash,return_index=True)
                 if not self.__x_additive is None:
-                    self.__ass.setK(gwas_core.Kernel.realizedRelationshipKernel(self.__x_additive[:,uindex]))
+                    self.__ass.setK(gwas_core.CKernels.realizedRelationshipKernel(self.__x_additive[:,uindex]))
                     #self.__ass.setK(self.computeRealizedRelationshipKernel(genotype=self.__x_additive[:,uindex]))
                 else:
-                    self.__ass.setK(gwas_core.Kernel.realizedRelationshipKernel(self.__x[:,uindex]))
+                    self.__ass.setK(gwas_core.CKernels.realizedRelationshipKernel(self.__x[:,uindex]))
                     #self.__ass.setK(self.computeRealizedRelationshipKernel(genotype=self.__x[:,uindex]))
             else:
                 if not self.__x_additive is None:
-                    self.__ass.setK(gwas_core.Kernel.realizedRelationshipKernel(self.__x_additive))
+                    self.__ass.setK(gwas_core.CKernels.realizedRelationshipKernel(self.__x_additive))
                     #self.__ass.setK(self.computeRealizedRelationshipKernel(genotype=self.__x_additive))
                 else:
-                    self.__ass.setK(gwas_core.Kernel.realizedRelationshipKernel(self.__x))
+                    self.__ass.setK(gwas_core.CKernels.realizedRelationshipKernel(self.__x))
                     #self.__ass.setK(self.computeRealizedRelationshipKernel(genotype=self.__x))
         
 
