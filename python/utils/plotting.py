@@ -10,7 +10,7 @@ import estimate_ld as ld
 import sqlite3
 
 from general import remove_border
-
+from matplotlib.ticker import FixedFormatter
 
 def ManhattanPlot(arguments,pv,positions,chromosomes,hashs,unique_pv,fname): 
     font_size = 14
@@ -35,7 +35,7 @@ def ManhattanPlot(arguments,pv,positions,chromosomes,hashs,unique_pv,fname):
 
     pl.ion()
     pl.figure(figsize=(20,3))
-
+    
     if arguments.nr_hypothesis==-1:
         if unsnps:
             bf_threshold = 0.05/unique_pv.shape[0]
@@ -281,6 +281,7 @@ def LDPlot(arguments,identifiers,encoded,maf,pv,unique_pv,positions,chromosomes,
             vline_map = {}
             rr_color_list = []
             maf_list = []
+            xlabels = [_pos[ranges][0],__pos[0],_pos[ranges][-1]]
             idx = sp.where(str(chrom) + "_" + str(pp)==identifiers)[0]
             for l,sra in enumerate(ranges):
                 sind = sp.where(str(chrom) + "_" + str(_pos[sra])==identifiers)[0]
@@ -323,7 +324,7 @@ def LDPlot(arguments,identifiers,encoded,maf,pv,unique_pv,positions,chromosomes,
             ax1.set_yticks(sp.arange(1,sp.ceil(sp.maximum(-sp.log10(bf_threshold)+1,sp.maximum((-sp.log10(_pv[ranges])).max()+1,-sp.log10(_pv[pp_idx])+1))),3))
             ax1.set_xlim(_pos[ranges[0]]-snp_distance*0.01,_pos[ranges[-1]]+snp_distance*0.01)
             ax1.yaxis.grid()
-            if not pathogenicity_map==None:
+            if len(pathogenicity_map)>0:
                 deleterious = pl.Line2D(range(1), range(1), marker='^', color="white",linestyle="None")
                 benign = pl.Line2D(range(1), range(1), marker='v', color="white",linestyle="None")
                 leg = pl.legend([benign,deleterious],['Benign Missense Mutation','Deleterious Missense Mutation'],frameon=True,scatterpoints=1,prop={'size':12},
@@ -367,7 +368,7 @@ def LDPlot(arguments,identifiers,encoded,maf,pv,unique_pv,positions,chromosomes,
                     head_width=0.25
                     head_length=length*0.15
                     width=0.1
-                    name = annotation[7]
+                    name = annotation[7].replace("Contig20-","")
 
                     if annotation[5]=="+":
                         shape = "right"
@@ -385,11 +386,12 @@ def LDPlot(arguments,identifiers,encoded,maf,pv,unique_pv,positions,chromosomes,
                             y_pos = 0.15
                         else:
                             y_pos = 0.35
-                        y_text = y_pos-1*width
+                        y_text = y_pos-2*width
                         ax2.arrow(start+length,y_pos,-length,0,head_width=head_width,head_length=head_length,fc=color_list[3],ec=color_list[3],alpha=alpha,width=width,**arrow_params)
-                    ax2.text(start+length/2.0, y_text,name, size=12, ha='center', va='center', color="k")
+                    ax2.text(start+length/2.0, y_text,name, size=7, ha='center', va='center', color="k")
 
-            
+            pl.xticks(xlabels,xlabels)
+            #pl.gca().get_xaxis().get_major_formatter().set_useOffset(False)
             if not sqlite==None:
                 cax = fig.add_axes([0.93, 0.4, 0.01, 0.5])
                 pl.colorbar(cpick,label="SNP r^2",cax=cax)

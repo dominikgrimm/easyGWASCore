@@ -78,14 +78,14 @@ Read HDF5 Output File
 '''
 def read_HDF5_file(fileName=None):
     f = h5py.File(fileName,'r')
-    pv = f['p_values'][:]
+    pv = f['p_values'][:].flatten()
     positions = f['positions'][:]
     chromosomes = f['chromosomes'][:]
     hashs = f['snp_hash'][:]
     maf = f['maf'][:]
     name = f['phenotype_name'].value.replace(" ","_").replace("<i>","").replace("</i>","")
     f.close()
-    
+
     tmp,u_ind = sp.unique(hashs,return_index=True)
     unique_pv = pv[u_ind]
     return [pv,positions,chromosomes,hashs,unique_pv,name]

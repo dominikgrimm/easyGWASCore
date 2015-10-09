@@ -19,6 +19,8 @@ import scipy as sp
 import scipy.linalg as linalg
 import h5py
 
+#import limix.modules.qtl as qtl
+
 class GWACovariates():
     def __init__(self):
         self.covariate_id = None
@@ -193,11 +195,11 @@ class GWAExperiment():
             [self.__x, self.__maf_data] = self.encodeHomozygousData(raw_data)
         else:
             [self.__x, self.__maf_data] = self.encodeHeterozygousData(raw_data,settings.snp_encoding)
-            if settings.snp_encoding!="additive":
-                [self.__x_additive, self.__maf_data] = self.encodeHeterozygousData(raw_data)
+            #if settings.snp_encoding!="additive":
+                #[self.__x_additive, self.__maf_data] = self.encodeHeterozygousData(raw_data)
                 #This was experimental to use an additve Kinship in case a other encoding was selected, now we only use the MAF filtering based
                 #on an additve model! Comment the next line out if you wish to use the additve kinship matrix again
-                self.__x_additive = None
+            #    self.__x_additive = None
         if settings.maf > 0.0:
             self.filter_mAF(settings.maf)
         self.filterNonInformativeSNPs()
@@ -398,6 +400,7 @@ class GWAExperiment():
         result_file.create_dataset("maf",data=self.__maf_data,compression="gzip",compression_opts=9,chunks=True)
         result_file.create_dataset("snp_hash",data=self.__snp_hash,compression="gzip",compression_opts=9,chunks=True)
         result_file.create_dataset("positions",data=self.__pos_index,compression="gzip",compression_opts=9,chunks=True)
+        #result_file.create_dataset("p_values",data=self.__pvtest,compression="gzip",compression_opts=9,chunks=True)
         result_file.create_dataset("p_values",data=pval,compression="gzip",compression_opts=9,chunks=True)
         result_file.create_dataset("q_values",data=q_values,compression="gzip",compression_opts=9,chunks=True)
         result_file.create_dataset("bh_p_values",data=bh_p_values,compression="gzip",compression_opts=9,chunks=True)
@@ -505,3 +508,5 @@ class GWAExperiment():
                 self.__ass.permutations(self.__perms)
             else:
                 self.__ass.test_associations()
+                #lmm = qtl.test_lmm(snps=self.__x,pheno=self.__y,covs=None,test="lrt",K=gwas_core.CKernels.realizedRelationshipKernel(self.__x))
+                #self.__pvtest = lmm.getPv()
