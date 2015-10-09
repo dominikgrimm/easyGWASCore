@@ -34,7 +34,7 @@ def ManhattanPlot(arguments,pv,positions,chromosomes,hashs,unique_pv,fname):
     unsnps = arguments.distinct
 
     pl.ion()
-    pl.figure(figsize=(30,3))
+    pl.figure(figsize=(20,3))
 
     if arguments.nr_hypothesis==-1:
         if unsnps:
@@ -110,7 +110,7 @@ def ManhattanPlot(arguments,pv,positions,chromosomes,hashs,unique_pv,fname):
         pl.axvline(split,color='k',linestyle='--')
     
     pl.xticks(xtick_list,chrom_list)
-    pl.subplots_adjust(left=0.09,bottom=0.09,right=0.99,top=0.9,wspace=0.45)
+    pl.subplots_adjust(left=0.05,bottom=0.09,right=0.99,top=0.9,wspace=0.45)
     remove_border()
     if unsnps:
         pv = unique_pv
@@ -212,7 +212,7 @@ def LDPlot(arguments,identifiers,encoded,maf,pv,unique_pv,positions,chromosomes,
     r2_measure = arguments.r2_measure
 
     pl.ion()
-    pl.figure(figsize=(12,4))
+    pl.figure(figsize=(20,4))
 
     color_list = ['#F26C4F','#F68E55','#7CC576','#00BFF3','#605CA8','#F06EA9','#F26C4F','#F68E55']
     
@@ -367,7 +367,7 @@ def LDPlot(arguments,identifiers,encoded,maf,pv,unique_pv,positions,chromosomes,
                     head_width=0.25
                     head_length=length*0.15
                     width=0.1
-                    name = annotation[1]
+                    name = annotation[7]
 
                     if annotation[5]=="+":
                         shape = "right"

@@ -44,7 +44,7 @@ get encoded data
 '''
 def getEncodedData(filename,encoding="additive",phenotype_id=None,maf=0.0):
     f = h5py.File(filename,'r')
-    print phenotype_id
+    phenotype_id = str(phenotype_id)
     if not phenotype_id==None:
         sample_ids = f['Genotype/sample_ids'][:]
         p_sample_ids = f['Phenotypes'][phenotype_id]['sample_ids'][:]

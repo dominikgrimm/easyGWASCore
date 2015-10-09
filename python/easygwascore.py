@@ -59,7 +59,7 @@ def main():
     g_parser.add_argument("--transform",action="store",dest="transform",default=None,help="Transform Phenotype (default: No transformation)",choices=('sqrt','log10','boxcox','zeroMean','unitVariance'))
     g_parser.add_argument("--homozygous",action="store_true",dest="homozygous",help="Genotype is homozygous (default=False)",default=False)
     g_parser.add_argument("--phenotype_id",action="store",dest="phenotype_id",type=int,help="Specifiy certain phenotype in HDF5 file. If not specified loop over all phenotypes (default=all)",default=-1)
-    g_parser.add_argument("--covariate_ids",action="store",nargs='+',dest="covariate_ids",type=int,help="Select covariate from HDF5 file. If not specified loop over all covariates (default=all) [multiple ids can be specified]",default=-1)
+    g_parser.add_argument("--covariate_ids",action="store",nargs='+',dest="covariate_ids",type=int,help="Select covariate from HDF5 file. If not specified loop over all covariates (default=all) [multiple ids can be specified]",default=[])
     g_parser.add_argument("--transform_covariates",action="store",dest="transform_covariates",default=None,help="Transform Covariates (default: No transformation)",choices=('sqrt','log10','boxcox','zeroMean','unitVariance','dummyVariable'))
     g_parser.add_argument("--algorithm",action="store",dest="algorithm",default="linear",help="Select Algorithm",choices=('linear','logit','FaSTLMM','EMMAX','ttest','fisher','WCrt','MWUrt','linearperm','logitperm','EMMAXperm'))
     g_parser.add_argument("--threads",action="store",dest="threads",type=int,help="If mutliple phenotypes in file parallelize computations (default=Available CPUs - 1)",default=multiprocessing.cpu_count()-1)
@@ -380,8 +380,16 @@ def main():
                 if results.qqplot:
                     QQPlot(results,pv,unique_pv,phenotype_name)
                 if results.ldplot:
-                    print results.hfile
-                    [encoded,maf,identifiers] = getEncodedData(results.hdata,phenotype_id=results.hfile.split("/")[-1].split(".")[0],maf=results.maf)
+                    if results.hfile!=None:
+                        pid = results.hfile.split("/")[-1].split(".")[0]
+                    elif results.csvfile:
+                        pid = results.csvfile.split("/")[-1].split(".")[0]
+                        try:
+                            pid = int(pid)
+                        except:
+                            print "\nThe filename prefix must be the phenotype ID from the HDF5 file\n"
+                            quit()
+                    [encoded,maf,identifiers] = getEncodedData(results.hdata,phenotype_id=pid,maf=results.maf)
                     LDPlot(results,identifiers,encoded,maf,pv,unique_pv,positions,chromosomes,phenotype_name,pathogenicity_map)
         else:
             plot_parser.print_help()
