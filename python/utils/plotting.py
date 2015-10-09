@@ -17,7 +17,7 @@ def ManhattanPlot(arguments,pv,positions,chromosomes,hashs,unique_pv,fname):
     mpl.rcParams['font.family']="sans-serif"
     mpl.rcParams['font.sans-serif']="Arial"
     mpl.rcParams['font.size']=font_size
-    mpl.rcParams['figure.dpi'] = 300
+    #mpl.rcParams['figure.dpi'] = 300
     mpl.rcParams['font.weight']='medium'
     mpl.rcParams['figure.facecolor'] = 'white'
     mpl.rcParams['lines.linewidth'] = 1
@@ -34,7 +34,7 @@ def ManhattanPlot(arguments,pv,positions,chromosomes,hashs,unique_pv,fname):
     unsnps = arguments.distinct
 
     pl.ion()
-    pl.figure(figsize=(12,3))
+    pl.figure(figsize=(30,3))
 
     if arguments.nr_hypothesis==-1:
         if unsnps:
@@ -129,7 +129,7 @@ def QQPlot(arguments,pv,unique_pv,fname):
     mpl.rcParams['font.family']="sans-serif"
     mpl.rcParams['font.sans-serif']="Arial"
     mpl.rcParams['font.size']=font_size
-    mpl.rcParams['figure.dpi'] = 300
+    #mpl.rcParams['figure.dpi'] = 300
     mpl.rcParams['font.weight']='medium'
     mpl.rcParams['figure.facecolor'] = 'white'
     mpl.rcParams['lines.linewidth'] = 1

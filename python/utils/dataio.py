@@ -1064,7 +1064,7 @@ def convertHDF5_2_PLINK(arguments=None):
     identifiers = hf['Genotype/identifiers'][:]
 
     #write PED file
-    f = open(output_dir + ".ped",'w')
+    f = open(output_dir + "genotype.ped",'w')
     for i in xrange(sample_ids.shape[0]):
         string = sample_ids[i] + " " + sample_ids[i] + " 0 0 0 0 "
         for j in xrange(raw.shape[1]):
@@ -1077,7 +1077,7 @@ def convertHDF5_2_PLINK(arguments=None):
     f.close()
 
     #write MAP file
-    f = open(output_dir + ".map",'w')
+    f = open(output_dir + "genotype.map",'w')
     for i in xrange(chr_index.shape[0]):
         chr_id = chr_index[i].replace("Chr","").replace("chr","")
         f.write(chr_id + " " + identifiers[i] + " 0 " + str(int(pos_index[i])) + "\n")
@@ -1097,7 +1097,23 @@ def convertHDF5_2_PLINK(arguments=None):
             string = sample_ids[i] + " " + sample_ids[i] + " " + str(y[i])
             f.write(string + "\n")
         f.close()
+    
+    #write covarite file
+    covarite_ids = hf['Covariates'].keys()
+    for pid in covarite_ids:
+        covarite = hf['Covariates'][pid]
+        y = covarite['y'][:]
+        sample_ids = covarite['sample_ids'][:]
+        covarite_name = covarite['name'].value
+        covarite_name = covarite_name.replace(" ","_").replace("<i>","").replace("</i>","")
+        f = open(os.path.join(output_dir,covarite_name + ".cov"),'w')
+        f.write("FID IID " + covarite_name + "\n")
+        for i in xrange(sample_ids.shape[0]):
+            string = sample_ids[i] + " " + sample_ids[i] + " " + str(y[i])
+            f.write(string + "\n")
+        f.close()
     hf.close()
+
 
 '''
 CONVERT HDF5 to PLINK: TRAINING AND TESTING

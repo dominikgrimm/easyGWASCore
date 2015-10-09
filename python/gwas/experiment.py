@@ -111,8 +111,8 @@ class GWAExperiment():
         X = zeroMeanUnitVarianz(data=genotype)
         K = 1.0/X.shape[1]*sp.dot(X,X.T)
         #if K contains negative values set these values to 0
-        #ind = sp.where(K<0)
-        #K[ind] = 0
+        ind = sp.where(K<0)
+        K[ind] = 0
         return K
     
     def computePCA(self,X=None,number_pcs=5):
