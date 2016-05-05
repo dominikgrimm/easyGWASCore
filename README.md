@@ -5,7 +5,7 @@ CEasyGWAS Framework
 Core Framework of easyGAS (http://easygwas.ethz.ch) for computing genome-wide association studies and meta-analysis. This is a C/C++ Framework with Python interfaces. The code includes several standard methods for performing GWAS, such as linear regression, logistic regression and popular linear mixed models to also account for population stratification. In addition, the package contains code for the network guided multi-locus mapping method SConES (http://bioinformatics.oxfordjournals.org/content/29/13/i171.short).
 
 
-1.) Install Dependencies
+Install Dependencies
 ------------------------
 
 - Install SWIG: http://www.swig.org/download.html
@@ -14,11 +14,11 @@ Core Framework of easyGAS (http://easygwas.ethz.ch) for computing genome-wide as
 
 
 
-2.) Compiling the Code
+Compiling the Code
 ----------------------
 
-2.1) Compile C++ API and Binaries Only
-**************************************
+Compile C++ API and Binaries Only
+*********************************
 
 To compile the code you have to go to the root directory of the Framework and type:
 
@@ -27,14 +27,17 @@ $>: scons -j 4 --build=release
 This command builds the code using 4 CPUs and the release command uses optimization techniques to make the code faster.
 
 
-2.2) Compile C++ API and Python Interfaces
-******************************************
+Compile C++ API and Python Interfaces
+**************************************
 
 To compile the C/C++ code and build the python interfaces, SWIG has to be installed. To compile the interface you have to type:
 
 $>: scons -j 4 --build=release --interface=python
 
 
+*******
+License
+*******
 
 Code by: Dominik Gerhard Grimm
 Year: 2011-2016
