@@ -1,3 +1,8 @@
+/*
+Reimplementation of FastANOVA
+Paper Link: http://www.ncbi.nlm.nih.gov/pubmed/20945829
+*/
+
 #include "CFastANOVA.h"
 
 #include <list>
