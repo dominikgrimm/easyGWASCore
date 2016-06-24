@@ -1,3 +1,7 @@
+/*
+Reimplementation of FastANOVA
+Paper Link: http://www.ncbi.nlm.nih.gov/pubmed/20945829
+*/
 #ifndef C_FASTANOVA_CLASS
 #define C_FASTANOVA_CLASS
 
