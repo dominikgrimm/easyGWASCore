@@ -129,6 +129,10 @@ namespace CSingleTraitGWAS {
 			GWASResults getResults();
 	};
 	
+	/*
+	Reimplementation of EMMAX
+	Paper Link: http://www.nature.com/ng/journal/v42/n4/abs/ng.548.html
+	*/
 	class EMMAX {
 		private:
 			bool __covs_set;
@@ -190,6 +194,10 @@ namespace CSingleTraitGWAS {
 			GWASResults getResults();
 	};
 	
+	/*
+	Reimplementation of EMMAX
+	Paper Link: http://www.nature.com/nmeth/journal/v8/n10/abs/nmeth.1681.html
+	*/
 	class FaSTLMM {
 		private:
 			bool __covs_set;
