@@ -2,7 +2,7 @@
 CEasyGWAS Framework
 *********************
 
-Core Framework of easyGAS (http://easygwas.ethz.ch) for computing genome-wide association studies and meta-analysis. This is a C/C++ Framework with Python interfaces. The code includes several standard methods for performing GWAS, such as linear regression, logistic regression and popular linear mixed models to also account for population stratification. In addition, the package contains code for the network guided multi-locus mapping method SConES (http://bioinformatics.oxfordjournals.org/content/29/13/i171.short).
+Core Framework of easyGAS (http://easygwas.ethz.ch) for computing genome-wide association studies and meta-analysis. This is a C/C++ Framework with Python interfaces. The code includes several standard methods for performing GWAS, such as linear regression, logistic regression and popular linear mixed models (EMMAX (http://www.nature.com/ng/journal/v42/n4/abs/ng.548.html), FaSTLMM (http://www.nature.com/nmeth/journal/v8/n10/abs/nmeth.1681.html)) to also account for population stratification. In addition, the package contains code for the network guided multi-locus mapping method SConES (http://bioinformatics.oxfordjournals.org/content/29/13/i171.short).
 
 
 Install Dependencies
