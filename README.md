@@ -42,7 +42,7 @@ License
 Code by: Dominik Gerhard Grimm
 Year: 2011-2016
 Group: Machine Learning and Computational Biology Research Group
-Insitute: Max Planck Institute for Intelligent Systems and Max Planck Institute for Developmental Biology
+Insitute: Max Planck Institute for Intelligent Systems, Max Planck Institute for Developmental Biology and ETH Zürich
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
