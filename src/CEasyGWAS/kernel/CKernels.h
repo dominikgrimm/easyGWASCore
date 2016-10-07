@@ -7,7 +7,8 @@ class CKernels {
 	
 	public:
 		static MatrixXd realizedRelationshipKernel(MatrixXd const&);
-
+        static MatrixXd linearKernel(MatrixXd const&);
+        static MatrixXd centerKernel(MatrixXd const&);
 };
 
 #endif //CKERNEL_CLASS

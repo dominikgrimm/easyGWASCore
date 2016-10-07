@@ -21,6 +21,7 @@
 #include "CEasyGWAS/stats/CFisherF.h"
 #include "CEasyGWAS/stats/CStudentT.h"
 #include "CEasyGWAS/stats/CGamma.h"
+#include "CEasyGWAS/stats/CHSIC.h"
 /*
 */
 %}
@@ -76,6 +77,7 @@ namespace std {
 %include "stats/CFisherF.i"
 %include "stats/CStudentT.i"
 %include "stats/CGamma.i"
+%include "stats/CHSIC.i"
 /*
 *Ignore some global stuff
 */
