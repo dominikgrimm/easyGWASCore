@@ -621,23 +621,26 @@ def createGFFDB(arguments):
         print "File in --sqlout " + arguments.sqlout + " already exists. Please specify a different file!\n"
         quit()
     gfff = open(arguments.gfile,'r')
-    split_delimiter = " "
+    split_delimiter = "\t"
     tmp_chromosome_map = {}
     
     gene_set = []
     for i,line in enumerate(gfff):
+        if line[0]=="#":
+            continue
         sv = line.strip().split(split_delimiter)
         if i==0:
             if len(sv)==1:
-                sv = line.strip().split("\t")
+                sv = line.strip().split(" ")
                 if len(sv)>1:
-                    split_delimiter = "\t"
+                    split_delimiter = " "
                 else:
                     print "[GFF File]: Wrong file format in GFF file. Delimiter has to be either a whitespace or a tab."
                     quit()
         if len(sv)<8 or len(sv)==0:
             print "[GFF File]: Wrong file format. GFF file must contain 9 columns. See FAQ for details."
             quit()
+        '''
         if sv[2].strip().upper() == "CHROMOSOME" or sv[2].strip().upper() == "CHROMOSOME_ARM":
             info = sv[8].strip().split(";")
             elements = getGFFInfoElements(info)
@@ -648,7 +651,9 @@ def createGFFDB(arguments):
                 print "[GFF File]: Wrong file format. Chromosome ID in column 1 has to be the same identifier as the ID in column 9. See FAQ for details."
                 print "[GFF File]: Chromosome IDs do not match. Unknown chromosome identifier found in GFF file: " + elements["ID"]
                 quit()
-        elif sv[2].strip().upper()=="GENE":
+        '''
+        #elif sv[2].strip().upper()=="GENE":
+        if sv[2].strip().upper()=="GENE":
             info = sv[8].strip().split(";")
             elements = getGFFInfoElements(info)
             if len(elements)==0:
