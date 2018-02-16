@@ -104,8 +104,8 @@ int main(int argc, char* argv[]) {
         if (pcs>0) {
             begin = clock();
             logging(STATUS,"Computing Realized Relationship Kernel and Principle Components...");
-            data.K = CKernels::realizedRelationshipKernel(data.X);
-            MatrixXd PCs = CStats::principle_components(data.K);
+            tmpData.K = CKernels::realizedRelationshipKernel(tmpData.X);
+            MatrixXd PCs = CStats::principle_components(tmpData.K);
             PCs = sliceColsMatrix(PCs,VectorXd::LinSpaced(pcs,0,pcs-1));
             logging(WARNING,"Finished in " + StringHelper::to_string<clock_t>((clock()-begin)/CLOCKS_PER_SEC) + " sec\n");
 
